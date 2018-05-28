@@ -1,0 +1,4 @@
+var _user$project$Messages$BoardClick = function (a) {
+	return {ctor: 'BoardClick', _0: a};
+};
+var _user$project$Messages$NoOp = {ctor: 'NoOp'};

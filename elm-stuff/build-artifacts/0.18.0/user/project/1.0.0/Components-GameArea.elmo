@@ -1,0 +1,128 @@
+var _user$project$Components_GameArea$renderSnakeHead = function (direction) {
+	var _p0 = direction;
+	switch (_p0.ctor) {
+		case 'Up':
+			return '';
+		case 'Right':
+			return '';
+		case 'Down':
+			return '';
+		default:
+			return '';
+	}
+};
+var _user$project$Components_GameArea$renderGameAreaRow = F2(
+	function (gameAreaRow, rowIndex) {
+		return A2(
+			_elm_lang$core$List$indexedMap,
+			F2(
+				function (index, square) {
+					var _p1 = square;
+					switch (_p1.ctor) {
+						case 'SnakeHead':
+							return A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('game-area__cell--snake-head'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										_user$project$Components_GameArea$renderSnakeHead(_p1._0)),
+									_1: {ctor: '[]'}
+								});
+						case 'SnakeTail':
+							return A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('game-area__cell--snake-tail'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(''),
+									_1: {ctor: '[]'}
+								});
+						case 'Food':
+							return A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('game-area__cell--food'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(''),
+									_1: {ctor: '[]'}
+								});
+						default:
+							return A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('game-area__cell'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(''),
+									_1: {ctor: '[]'}
+								});
+					}
+				}),
+			gameAreaRow);
+	});
+var _user$project$Components_GameArea$generateEmptyGameArea = A2(
+	_elm_lang$core$List$repeat,
+	_user$project$Types_GameArea$gameAreaSize,
+	A2(_elm_lang$core$List$repeat, _user$project$Types_GameArea$gameAreaSize, _user$project$Types_GameArea$Empty));
+var _user$project$Components_GameArea$renderGameArea = function (model) {
+	var snakeTail = model.snake.tail;
+	var snakeHeadDirection = model.snake.head.direction;
+	var snakeHeadLocation = model.snake.head.location;
+	var gameArea = A2(
+		_elm_lang$core$List$indexedMap,
+		F2(
+			function (rowIndex, areaRow) {
+				return A2(
+					_elm_lang$core$List$indexedMap,
+					F2(
+						function (colIndex, square) {
+							return _elm_lang$core$Native_Utils.eq(
+								{ctor: '_Tuple2', _0: rowIndex, _1: colIndex},
+								snakeHeadLocation) ? _user$project$Types_GameArea$SnakeHead(snakeHeadDirection) : (A2(
+								_elm_lang$core$List$member,
+								{ctor: '_Tuple2', _0: rowIndex, _1: colIndex},
+								snakeTail) ? _user$project$Types_GameArea$SnakeTail : (_elm_lang$core$Native_Utils.eq(
+								{ctor: '_Tuple2', _0: rowIndex, _1: colIndex},
+								model.foodLocation) ? _user$project$Types_GameArea$Food : square));
+						}),
+					areaRow);
+			}),
+		_user$project$Components_GameArea$generateEmptyGameArea);
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('game-area'),
+			_1: {ctor: '[]'}
+		},
+		A2(
+			_elm_lang$core$List$indexedMap,
+			F2(
+				function (index, gameAreaRow) {
+					return A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('game-area__row'),
+							_1: {ctor: '[]'}
+						},
+						A2(_user$project$Components_GameArea$renderGameAreaRow, gameAreaRow, index));
+				}),
+			gameArea));
+};

@@ -1,0 +1,62 @@
+var _user$project$Types_GameArea$newFoodLocation = function (snakeLocationList) {
+	return {ctor: '_Tuple2', _0: 0, _1: 0};
+};
+var _user$project$Types_GameArea$directionToInt = function (direction) {
+	var _p0 = direction;
+	switch (_p0.ctor) {
+		case 'Up':
+			return 0;
+		case 'Right':
+			return 1;
+		case 'Down':
+			return 2;
+		default:
+			return 3;
+	}
+};
+var _user$project$Types_GameArea$gameAreaSize = 10;
+var _user$project$Types_GameArea$hasCrashed = F2(
+	function (_p1, tailLocations) {
+		var _p2 = _p1;
+		var _p4 = _p2._0;
+		var _p3 = _p2._1;
+		return (_elm_lang$core$Native_Utils.cmp(_p4, 0) < 0) || ((_elm_lang$core$Native_Utils.cmp(_p4, _user$project$Types_GameArea$gameAreaSize) > -1) || ((_elm_lang$core$Native_Utils.cmp(_p3, 0) < 0) || ((_elm_lang$core$Native_Utils.cmp(_p3, _user$project$Types_GameArea$gameAreaSize) > -1) || A2(
+			_elm_lang$core$List$member,
+			{ctor: '_Tuple2', _0: _p4, _1: _p3},
+			tailLocations))));
+	});
+var _user$project$Types_GameArea$Empty = {ctor: 'Empty'};
+var _user$project$Types_GameArea$Food = {ctor: 'Food'};
+var _user$project$Types_GameArea$SnakeTail = {ctor: 'SnakeTail'};
+var _user$project$Types_GameArea$SnakeHead = function (a) {
+	return {ctor: 'SnakeHead', _0: a};
+};
+var _user$project$Types_GameArea$Left = {ctor: 'Left'};
+var _user$project$Types_GameArea$Down = {ctor: 'Down'};
+var _user$project$Types_GameArea$Right = {ctor: 'Right'};
+var _user$project$Types_GameArea$Up = {ctor: 'Up'};
+var _user$project$Types_GameArea$intToDirection = function ($int) {
+	var _p5 = $int;
+	switch (_p5) {
+		case -1:
+			return _user$project$Types_GameArea$Left;
+		case 0:
+			return _user$project$Types_GameArea$Up;
+		case 1:
+			return _user$project$Types_GameArea$Right;
+		case 2:
+			return _user$project$Types_GameArea$Down;
+		case 3:
+			return _user$project$Types_GameArea$Left;
+		default:
+			return _user$project$Types_GameArea$Up;
+	}
+};
+var _user$project$Types_GameArea$turnDirection = F2(
+	function (turn, direction) {
+		return _user$project$Types_GameArea$intToDirection(
+			function (dirInt) {
+				return dirInt + turn;
+			}(
+				_user$project$Types_GameArea$directionToInt(direction)));
+	});

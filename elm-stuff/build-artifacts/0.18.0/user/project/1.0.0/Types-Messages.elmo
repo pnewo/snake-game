@@ -1,0 +1,11 @@
+var _user$project$Types_Messages$NoOp = {ctor: 'NoOp'};
+var _user$project$Types_Messages$Paused = {ctor: 'Paused'};
+var _user$project$Types_Messages$NewFood = function (a) {
+	return {ctor: 'NewFood', _0: a};
+};
+var _user$project$Types_Messages$TurnPress = function (a) {
+	return {ctor: 'TurnPress', _0: a};
+};
+var _user$project$Types_Messages$Tick = function (a) {
+	return {ctor: 'Tick', _0: a};
+};

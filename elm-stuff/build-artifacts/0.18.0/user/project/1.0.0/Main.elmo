@@ -1,0 +1,302 @@
+var _user$project$Main$key = function (keycode) {
+	var _p0 = keycode;
+	switch (_p0) {
+		case 37:
+			return _user$project$Types_Messages$TurnPress(-1);
+		case 39:
+			return _user$project$Types_Messages$TurnPress(1);
+		default:
+			return _user$project$Types_Messages$NoOp;
+	}
+};
+var _user$project$Main$subscriptions = function (model) {
+	var subArr = model.paused ? {
+		ctor: '::',
+		_0: _elm_lang$core$Platform_Sub$none,
+		_1: {ctor: '[]'}
+	} : {
+		ctor: '::',
+		_0: A2(_elm_lang$core$Time$every, 250 * _elm_lang$core$Time$millisecond, _user$project$Types_Messages$Tick),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$keyboard$Keyboard$downs(_user$project$Main$key),
+			_1: {ctor: '[]'}
+		}
+	};
+	return _elm_lang$core$Platform_Sub$batch(subArr);
+};
+var _user$project$Main$renderTopScores = function (intList) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(
+			_elm_lang$core$List$indexedMap,
+			F2(
+				function (index, score) {
+					return A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Basics$toString(index + 1),
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										'. ',
+										_elm_lang$core$Basics$toString(score)))),
+							_1: {ctor: '[]'}
+						});
+				}),
+			intList));
+};
+var _user$project$Main$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$img,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$src('/logo.svg'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(_user$project$Types_Messages$Paused),
+						_1: {ctor: '[]'}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h1,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Snake'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: _user$project$Components_GameArea$renderGameArea(model),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									_elm_lang$core$Basics$toString(model.score)),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$Main$renderTopScores(model.topScores),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Main$newFoodCommands = function (snakeLocations) {
+	var randomMax = ((_user$project$Types_GameArea$gameAreaSize * _user$project$Types_GameArea$gameAreaSize) - 1) - _elm_lang$core$List$length(snakeLocations);
+	return A2(
+		_elm_lang$core$Random$generate,
+		_user$project$Types_Messages$NewFood,
+		A2(_elm_lang$core$Random$int, 0, randomMax));
+};
+var _user$project$Main$getNewHeadLocation = F2(
+	function (direction, location) {
+		var sum = F2(
+			function (int1, int2) {
+				return int1 + int2;
+			});
+		var add = sum(1);
+		var sub = sum(-1);
+		var _p1 = direction;
+		switch (_p1.ctor) {
+			case 'Up':
+				return A2(_elm_lang$core$Tuple$mapFirst, sub, location);
+			case 'Right':
+				return A2(_elm_lang$core$Tuple$mapSecond, add, location);
+			case 'Down':
+				return A2(_elm_lang$core$Tuple$mapFirst, add, location);
+			default:
+				return A2(_elm_lang$core$Tuple$mapSecond, sub, location);
+		}
+	});
+var _user$project$Main$storedScoresAmount = 5;
+var _user$project$Main$getTopScores = F2(
+	function (topScores, newScore) {
+		return A2(
+			_elm_lang$core$List$take,
+			_user$project$Main$storedScoresAmount,
+			_elm_lang$core$List$reverse(
+				_elm_lang$core$List$sort(
+					{ctor: '::', _0: newScore, _1: topScores})));
+	});
+var _user$project$Main$initSnakeTailLength = 1;
+var _user$project$Main$initSnakeLocation = {ctor: '_Tuple2', _0: 0, _1: 0};
+var _user$project$Main$initModel = {
+	snake: {
+		head: {direction: _user$project$Types_GameArea$Right, location: _user$project$Main$initSnakeLocation},
+		tail: A2(_elm_lang$core$List$repeat, _user$project$Main$initSnakeTailLength, _user$project$Main$initSnakeLocation)
+	},
+	foodLocation: {ctor: '_Tuple2', _0: 0, _1: 1},
+	paused: true,
+	turnBuffer: {ctor: '[]'},
+	score: 0,
+	topScores: A2(_elm_lang$core$List$repeat, _user$project$Main$storedScoresAmount, 0)
+};
+var _user$project$Main$init = {
+	ctor: '_Tuple2',
+	_0: _user$project$Main$initModel,
+	_1: _user$project$Main$newFoodCommands(
+		{
+			ctor: '::',
+			_0: _user$project$Main$initSnakeLocation,
+			_1: {ctor: '[]'}
+		})
+};
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p2 = msg;
+		switch (_p2.ctor) {
+			case 'Tick':
+				var _p3 = function () {
+					var _p4 = model.turnBuffer;
+					if (_p4.ctor === '::') {
+						return {
+							ctor: '_Tuple2',
+							_0: A2(_user$project$Types_GameArea$turnDirection, _p4._0, model.snake.head.direction),
+							_1: _p4._1
+						};
+					} else {
+						return {ctor: '_Tuple2', _0: model.snake.head.direction, _1: model.turnBuffer};
+					}
+				}();
+				var newDirection = _p3._0;
+				var newTurnBuffer = _p3._1;
+				var newLocation = A2(_user$project$Main$getNewHeadLocation, newDirection, model.snake.head.location);
+				var isFoodEaten = _elm_lang$core$Native_Utils.eq(newLocation, model.foodLocation);
+				var _p5 = isFoodEaten ? {ctor: '_Tuple2', _0: 0, _1: model.score + 1} : {ctor: '_Tuple2', _0: 1, _1: model.score};
+				var moveTail = _p5._0;
+				var newScore = _p5._1;
+				var newTail = {
+					ctor: '::',
+					_0: model.snake.head.location,
+					_1: A2(
+						_elm_lang$core$List$take,
+						_elm_lang$core$List$length(model.snake.tail) - moveTail,
+						model.snake.tail)
+				};
+				var foodCommand = isFoodEaten ? _user$project$Main$newFoodCommands(
+					{ctor: '::', _0: newLocation, _1: newTail}) : _elm_lang$core$Platform_Cmd$none;
+				var crashed = A2(_user$project$Types_GameArea$hasCrashed, newLocation, newTail);
+				var snakeHead = model.snake.head;
+				var newHead = _elm_lang$core$Native_Utils.update(
+					snakeHead,
+					{location: newLocation, direction: newDirection});
+				var newSnake = {head: newHead, tail: newTail};
+				return crashed ? {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						_user$project$Main$initModel,
+						{
+							topScores: A2(_user$project$Main$getTopScores, model.topScores, newScore)
+						}),
+					_1: _user$project$Main$newFoodCommands(
+						{
+							ctor: '::',
+							_0: _user$project$Main$initSnakeLocation,
+							_1: {ctor: '[]'}
+						})
+				} : {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{snake: newSnake, turnBuffer: newTurnBuffer, score: newScore}),
+					_1: foodCommand
+				};
+			case 'TurnPress':
+				var newTurnBuffer = (_elm_lang$core$Native_Utils.cmp(
+					_elm_lang$core$List$length(model.turnBuffer),
+					2) < 0) ? A2(
+					_elm_lang$core$List$append,
+					model.turnBuffer,
+					{
+						ctor: '::',
+						_0: _p2._0,
+						_1: {ctor: '[]'}
+					}) : model.turnBuffer;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{turnBuffer: newTurnBuffer}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'NewFood':
+				var snakeLocationSet = _elm_lang$core$Set$fromList(
+					{ctor: '::', _0: model.snake.head.location, _1: model.snake.tail});
+				var newLocation = A2(
+					_elm_lang$core$Maybe$withDefault,
+					{ctor: '_Tuple2', _0: -1, _1: -1},
+					A2(
+						_elm_lang$core$Array$get,
+						_p2._0,
+						_elm_lang$core$Array$fromList(
+							_elm_lang$core$Set$toList(
+								A3(
+									_elm_lang$core$Basics$flip,
+									_elm_lang$core$Set$diff,
+									snakeLocationSet,
+									_elm_lang$core$Set$fromList(
+										_elm_lang$core$List$concat(
+											A2(
+												_elm_lang$core$List$indexedMap,
+												F2(
+													function (rowIndex, areaRow) {
+														return A2(
+															_elm_lang$core$List$indexedMap,
+															F2(
+																function (colIndex, _p6) {
+																	return {ctor: '_Tuple2', _0: rowIndex, _1: colIndex};
+																}),
+															areaRow);
+													}),
+												_user$project$Components_GameArea$generateEmptyGameArea))))))));
+				return (_elm_lang$core$Native_Utils.cmp(
+					_elm_lang$core$Tuple$first(newLocation),
+					0) < 0) ? {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{paused: true}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				} : {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{foodLocation: newLocation}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Paused':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{paused: !model.paused}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		}
+	});
+var _user$project$Main$main = _elm_lang$html$Html$program(
+	{view: _user$project$Main$view, init: _user$project$Main$init, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})();

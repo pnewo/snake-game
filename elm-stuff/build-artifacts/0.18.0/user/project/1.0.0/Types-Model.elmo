@@ -1,0 +1,4 @@
+var _user$project$Types_Model$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {snake: a, foodLocation: b, paused: c, turnBuffer: d, score: e, topScores: f};
+	});
