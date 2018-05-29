@@ -1,8 +1,0 @@
-var _user$project$Types_Snake$Snake = F2(
-	function (a, b) {
-		return {head: a, tail: b};
-	});
-var _user$project$Types_Snake$SnakeHead = F2(
-	function (a, b) {
-		return {direction: a, location: b};
-	});
